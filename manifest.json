@@ -1,0 +1,10 @@
+{
+    "entry": "LxBox.js",
+    "name": "LxBox",
+    "type": "lse-quickjs",
+    "dependencies": [
+        {
+            "name": "legacy-script-engine-quickjs"
+        }
+    ]
+}
