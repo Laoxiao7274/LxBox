@@ -1,5 +1,6 @@
 import { MessageConstant } from "../../Constant/MessageConstant"
 import { IdCreateUtils } from "../../Utils/IdCreaeteUtils"
+import { Result } from "./Result"
 
 export class Team {
     /** 队伍ID */
@@ -23,32 +24,49 @@ export class Team {
 
     /**
      * 创建队伍
-     * @param player 创建队伍的玩家
+     * @param playerXuid 创建队伍的玩家
      * @param teamName 队伍名称
+     * @returns Result对象
      */
-    static createTeam(player: Player, teamName: string) {
-        if (this.haveTeam(player.xuid)) {
+    static createTeam(playerXuid: string, teamName: string):Result {
+        if (this.haveTeam(playerXuid).data) {
             //拥有队伍
-            player.tell(`${MessageConstant.PREFIX}你已经拥有队伍了`)
-            return
+            return Result.error(`${MessageConstant.PREFIX}你已经拥有队伍了`)
         }
-        const team = new Team(teamName, player.xuid)
+        const team = new Team(teamName, playerXuid)
         const teamList = this.teamListFile.get(`teamList`)
         teamList.push(team)
         this.teamListFile.set("teamList", teamList)
-        player.tell(`${MessageConstant.PREFIX}队伍创建成功!`)
+        return Result.success()
+    }
+
+    /**
+     * 删除队伍
+     * @param teamId 队伍ID
+     * @returns Result对象
+     */
+    static removeTeam(teamId:number):Result{
+        let teamList = this.teamListFile.get(`teamList`)
+        const teamLen = teamList.length;
+        teamList = teamList.filter((team:Team)=>{
+            if(team.id == teamId) return false
+            return true
+        })
+        if(teamList.length == teamLen) return Result.error(`${MessageConstant.PREFIX}该队伍不存在`)
+        this.teamListFile.set("teamLisst",teamList)
+        return Result.success()
     }
 
     /**
      * 添加队伍成员
      * @param teamId 队伍ID
      * @param memberXuid 成员xuid
-     * @returns 提示信息(成功或失败-用来告知执行者)
+     * @returns Result对象
      */
-    static addTeamMember(teamId:number,memberXuid:string):string{
-        if(this.haveTeam(memberXuid)){
+    static addTeamMember(teamId:number,memberXuid:string):Result{
+        if(this.haveTeam(memberXuid).data){
             //拥有队伍
-            return `${MessageConstant.PREFIX}你已经拥有队伍了`
+            return Result.error(`${MessageConstant.PREFIX}你已经拥有队伍了`)
         }
         let teamList = this.teamListFile.get("teamList")
         teamList = teamList.map((team:Team)=>{
@@ -57,7 +75,40 @@ export class Team {
             }
         })
         this.teamListFile.set("teamList",teamList)
-        return `${MessageConstant.PREFIX}添加成功!`
+        return Result.success()
+    }
+
+    /**
+     * 删除成员
+     * @param teamId 队伍ID
+     * @param memberXuid 成员XUID
+     * @returns Result对象
+     */
+    static removeTeamMember(teamId:number,memberXuid:string):Result{
+        //判断是否在队伍内
+        const memberTeamId = this.getTeamIdByPlayerXuid(memberXuid).data.teamId
+        if(memberTeamId == -1 || memberTeamId != teamId) return Result.error(`${MessageConstant.PREFIX}该玩家不在这个队伍中`)
+        //删除操作
+        let teamList = this.teamListFile.get("teamList")
+        teamList = teamList.map((team:Team)=>{
+            if(team.id == teamId){
+                //执行删除操作
+                team.member = team.member.filter(mXuid => mXuid !== memberXuid)
+            }
+            return team
+        })
+        this.teamListFile.set("teamList",teamList)
+        return Result.success()
+    }
+
+    /**
+     * 
+     * @param teamId 
+     * @param transferPlayerXuid 
+     * @returns 
+     */
+    static transferTeam(teamId:number,transferPlayerXuid:string):Result{
+        return Result.success()
     }
 
     /**
@@ -67,17 +118,17 @@ export class Team {
      *          - identity 身份信息 ["master","member","不存在为null"] 
      *          - teamId 队伍Id ["队伍ID","不存在为-1"]
      */
-    static getTeamIdByPlayerXuid(xuid:string){
+    static getTeamIdByPlayerXuid(xuid:string):Result{
         const teamList:Array<Team> = this.teamListFile.get("teamList")
         for(const team of teamList){
             //队长
-            if(team.masterXuid == xuid) return {identity:"master",teamId:team.id}
+            if(team.masterXuid == xuid) return Result.success({identity:"master",teamId:team.id})
             //成员
             for(const memberXuid of team.member){
-                if(memberXuid == xuid) return {identity:"member",teamId:team.id}
+                if(memberXuid == xuid) return Result.success({identity:"member",teamId:team.id})
             }
         }
-        return {identity:null,teamId:-1}
+        return Result.error(`${MessageConstant.PREFIX}该玩家没有队伍`)
     }
 
     /**
@@ -85,19 +136,19 @@ export class Team {
      * @param xuid 玩家xuid
      * @returns 是否拥有队伍(true-是,false-否)
      */
-    static haveTeam(xuid: string) {
+    static haveTeam(xuid: string):Result{
         const teamList = this.teamListFile.get(`teamList`)
         for (const team of teamList) {
             //队长判断
             if (team.masterXuid == xuid) {
-                return true
+                return Result.success()
             }
             //队员判断
             for(const memberXuid of team.member){
-                if(memberXuid == xuid) return true
+                if(memberXuid == xuid) Result.success()
             }
         }
-        return false
+        return Result.error(`${MessageConstant.PREFIX}该玩家不存在队伍`)
     }
 
     /**
