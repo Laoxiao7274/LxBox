@@ -1,4 +1,4 @@
-export class Result{
+export class Result<T = null>{
     result:boolean
     msg:string
     data:any
@@ -9,8 +9,8 @@ export class Result{
         this.data = data
     }
 
-    static success(data:any = null){
-        return new Result(true,"",data)
+    static success(T:any = null){
+        return new Result(true,"",T)
     }
 
     static error(msg:string){

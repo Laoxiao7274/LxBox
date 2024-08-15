@@ -15,6 +15,7 @@ const Conf = new JsonConfigFile("./plugins/LxBox/config.json")
 const teamListFile = new JsonConfigFile("./plugins/LxBox/data/teamList.json")
 
 teamListFile.init("teamList",[])
+Conf.init("teamChatPrefix",`§e§l[ §3§l队内 §e§l]§r§l`)
 
 mc.listen("onServerStarted",()=>{
     logger.info("LxBox加载中...")
@@ -22,11 +23,18 @@ mc.listen("onServerStarted",()=>{
     PluginCheck.check()
     //指令注册
     LxCommand.create()
+    //队内聊天监听
+    Team.chatListen()
     //API导出
     exportAPI()
     logger.info("LxBox加载成功!")
 })
 
+/**
+ * 全部API导出
+ */
 function exportAPI(){
     Team.export()
 }
+
+

@@ -1,3 +1,17 @@
+## 队伍实体
+~~~ts
+    class Team{
+        /** 队伍ID */
+        id: number
+        /** 队伍名称 */
+        name: string
+        /** 队长XUID */
+        masterXuid: string
+        /**队员列表 */
+        member: Array<string>   //存xuid
+    }
+~~~
+
 ## 组队API
 ### 创建队伍
 ~~~js
@@ -5,26 +19,367 @@
 ~~~
 - 返回函数: 
 ~~~ts
-    createTeam(player: Player, teamName: string)
+    createTeam(playerXuid: string, teamName: string):Result
 ~~~
 - 参数：
-- player：`Player`
-创建队伍的玩家对象
+- playerXuid：`string`
+创建队伍的玩家XUID
 - teamName: `string`
 创建的队伍名称
+- 返回值: `Result`
+~~~json
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据(空)
+    data: {}
+}
+~~~
+~~~json
+{
+    //0为失败1为成功
+    result: 0
+    //提示消息
+    msg: '你已经拥有队伍了'
+    //返回数据(空)
+    data: {}
+}
+~~~
+
+### 删除队伍
+~~~ts
+    ll.imports("LB_TEAM", "removeTeam")
+~~~
+- 返回函数: 
+~~~ts
+    removeTeam(teamId:number):Result
+~~~
+- 参数：
+- teamId：`number`
+队伍ID
+- 返回值: `Result`
+~~~json
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据(空)
+    data: {}
+}
+~~~
+~~~json
+{
+    //0为失败1为成功
+    result: 0
+    //提示消息
+    msg: '该队伍不存在'
+    //返回数据(空)
+    data: {}
+}
+~~~
+
+### 转让队伍
+~~~ts
+    ll.imports("LB_TEAM", "transferTeam")
+~~~
+- 返回函数: 
+~~~ts
+    transferTeam(teamId:number,transferPlayerXuid:string):Result
+~~~
+- 参数：
+- teamId：`number`
+队伍ID
+- transferPlayerXuid: `string`
+被转让玩家XUID
+- 返回值: `Result`
+~~~json
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据(空)
+    data: {}
+}
+~~~
+~~~json
+{
+    //0为失败1为成功
+    result: 0
+    //提示消息
+    msg: '无法转让自己'
+    //返回数据(空)
+    data: {}
+}
+~~~
+~~~json
+{
+    //0为失败1为成功
+    result: 0
+    //提示消息
+    msg: '该玩家是其他队伍队长'
+    //返回数据(空)
+    data: {}
+}
+~~~
+
+### 更新队伍信息
+~~~ts
+    ll.imports("LB_TEAM", "updateTeam")
+~~~
+- 返回函数: 
+~~~ts
+    updateTeam(team:Team):Result
+~~~
+- 参数：
+- team：`Team`
+队伍对象
+- 返回值: `Result`
+~~~json
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据(空)
+    data: {}
+}
+~~~
 
 ### 添加队伍成员
-~~~js
+~~~ts
     ll.imports("LB_TEAM", "addTeamMember")
 ~~~
 - 返回函数: 
 ~~~ts
-    addTeamMember(teamId:number,memberXuid:string):string
+    addTeamMember(teamId:number,memberXuid:string):Result
 ~~~
 - 参数：
 - teamId：`number`
 队伍ID
 - memberXuid: `string`
 添加成员的XUID
-- 返回值: `string`
-提示信息(成功或失败 用来告知执行者)
+- 返回值: `Result`
+~~~json
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据(空)
+    data: {}
+}
+~~~
+~~~json
+{
+    //0为失败1为成功
+    result: 0
+    //提示消息
+    msg: '你已经拥有队伍了'
+    //返回数据(空)
+    data: {}
+}
+~~~
+
+### 删除队伍成员
+~~~ts
+    ll.imports("LB_TEAM", "removeTeamMember")
+~~~
+- 返回函数: 
+~~~ts
+    removeTeamMember(teamId:number,memberXuid:string):Result
+~~~
+- 参数：
+- teamId：`number`
+队伍ID
+- memberXuid: `string`
+成员XUID
+- 返回值: `Result`
+~~~json
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据(空)
+    data: {}
+}
+~~~
+~~~json
+{
+    //0为失败1为成功
+    result: 0
+    //提示消息
+    msg: '该玩家不在这个队伍中'
+    //返回数据(空)
+    data: {}
+}
+~~~
+
+### 获取全部队伍信息
+~~~ts
+    ll.imports("LB_TEAM", "getAllTeam")
+~~~
+- 返回函数: 
+~~~ts
+    getAllTeam():Array<Team>
+~~~
+- 参数：
+- 返回值: `Result`
+~~~json
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据(Team对象数组)
+    data: Array<Team>
+}
+~~~
+
+### 根据队伍ID获取队伍信息
+~~~ts
+    ll.imports("LB_TEAM", "getTeamById")
+~~~
+- 返回函数: 
+~~~ts
+    getTeamById(teamId:number):Result<Team>
+~~~
+- 参数：
+- teamId: `number`
+队伍ID
+- 返回值: `Result<Team>`
+~~~json
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据(Team对象)
+    data: Team
+}
+~~~
+~~~json
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据(Team对象)
+    data: Team
+}
+~~~
+
+### 查询玩家是否拥有队伍
+~~~ts
+    ll.imports("LB_TEAM", "haveTeam")
+~~~
+- 返回函数: 
+~~~ts
+    haveTeam(xuid: string):Result
+~~~
+- 参数：
+- xuid: `number`
+玩家XUID
+- 返回值: `Result`
+~~~json
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据(空)
+    data: {}
+}
+~~~
+~~~json
+{
+    //0为失败1为成功
+    result: 0
+    //提示消息
+    msg: '该玩家不存在队伍'
+    //返回数据(空)
+    data: {}
+}
+~~~
+
+### 根据玩家xuid获取teamid
+~~~ts
+    ll.imports("LB_TEAM", "haveTeam")
+~~~
+- 返回函数: 
+~~~ts
+    getTeamIdByPlayerXuid(xuid:string):Result
+~~~
+- 参数：
+- xuid: `number`
+玩家XUID
+- 返回值: `Result`
+~~~yml
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据
+    data: {
+        identity: "master",
+        teamId: teamId,
+    }
+}
+~~~
+~~~yml
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据
+    data: {
+        identity: "member",
+        teamId: teamId,
+    }
+}
+~~~
+~~~yml
+{
+    //0为失败1为成功
+    result: 1
+    //提示消息
+    msg: ''
+    //返回数据
+    data: {
+        identity: "",
+        teamId: -1, //不存在队伍
+    }
+}
+~~~
+
+### 开启队内聊天
+~~~ts
+    ll.imports("LB_TEAM", "openTeamChat")
+~~~
+- 返回函数: 
+~~~ts
+    openTeamChat(player:Player)
+~~~
+- 参数：
+- player: `Player`
+玩家对象
+- 返回值: `无`
+
+### 关闭队内聊天
+~~~ts
+    ll.imports("LB_TEAM", "closeTeamChat")
+~~~
+- 返回函数: 
+~~~ts
+    closeTeamChat(player:Player)
+~~~
+- 参数：
+- player: `Player`
+玩家对象
+- 返回值: `无`
