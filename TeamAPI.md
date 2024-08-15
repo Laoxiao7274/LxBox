@@ -23,9 +23,9 @@
 ~~~
 - 参数：
 - playerXuid：`string`
-创建队伍的玩家XUID
+  创建队伍的玩家XUID
 - teamName: `string`
-创建的队伍名称
+  创建的队伍名称
 - 返回值: `Result`
 ~~~yml
 {
