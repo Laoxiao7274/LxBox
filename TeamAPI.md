@@ -27,7 +27,7 @@
 - teamName: `string`
 创建的队伍名称
 - 返回值: `Result`
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 1
@@ -37,7 +37,7 @@
     data: {}
 }
 ~~~
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 0
@@ -60,7 +60,7 @@
 - teamId：`number`
 队伍ID
 - 返回值: `Result`
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 1
@@ -70,7 +70,7 @@
     data: {}
 }
 ~~~
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 0
@@ -95,7 +95,7 @@
 - transferPlayerXuid: `string`
 被转让玩家XUID
 - 返回值: `Result`
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 1
@@ -105,7 +105,7 @@
     data: {}
 }
 ~~~
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 0
@@ -115,7 +115,7 @@
     data: {}
 }
 ~~~
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 0
@@ -138,7 +138,7 @@
 - team：`Team`
 队伍对象
 - 返回值: `Result`
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 1
@@ -163,7 +163,7 @@
 - memberXuid: `string`
 添加成员的XUID
 - 返回值: `Result`
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 1
@@ -173,7 +173,7 @@
     data: {}
 }
 ~~~
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 0
@@ -198,7 +198,7 @@
 - memberXuid: `string`
 成员XUID
 - 返回值: `Result`
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 1
@@ -208,7 +208,7 @@
     data: {}
 }
 ~~~
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 0
@@ -229,7 +229,7 @@
 ~~~
 - 参数：
 - 返回值: `Result`
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 1
@@ -252,7 +252,7 @@
 - teamId: `number`
 队伍ID
 - 返回值: `Result<Team>`
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 1
@@ -262,7 +262,7 @@
     data: Team
 }
 ~~~
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 1
@@ -285,7 +285,7 @@
 - xuid: `number`
 玩家XUID
 - 返回值: `Result`
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 1
@@ -295,7 +295,7 @@
     data: {}
 }
 ~~~
-~~~json
+~~~yml
 {
     //0为失败1为成功
     result: 0
