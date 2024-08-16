@@ -1,3 +1,4 @@
+import { ErrorConstant } from "../../Constant/ErrorConstant"
 import { MessageConstant } from "../../Constant/MessageConstant"
 import { TagConstant } from "../../Constant/TagConstent"
 import { IdCreateUtils } from "../../Utils/IdCreaeteUtils"
@@ -36,7 +37,7 @@ export class Team {
     static createTeam(playerXuid: string, teamName: string):Result {
         if (this.haveTeam(playerXuid).result) {
             //拥有队伍
-            return Result.error(`${MessageConstant.PREFIX}你已经拥有队伍了`)
+            return Result.error(MessageConstant.PREFIX+ErrorConstant.HAVE_TEAM)
         }
         const team = new Team(teamName, playerXuid)
         const teamList = this.teamListFile.get(`teamList`)
@@ -57,7 +58,7 @@ export class Team {
             if(team.id == teamId) return false
             return true
         })
-        if(teamList.length == teamLen) return Result.error(`${MessageConstant.PREFIX}该队伍不存在`)
+        if(teamList.length == teamLen) return Result.error(MessageConstant.PREFIX+ErrorConstant.TEAM_DONT_EXIST)
         this.teamListFile.set("teamLisst",teamList)
         return Result.success()
     }
@@ -71,7 +72,7 @@ export class Team {
     static addTeamMember(teamId:number,memberXuid:string):Result{
         if(this.haveTeam(memberXuid).result){
             //拥有队伍
-            return Result.error(`${MessageConstant.PREFIX}你已经拥有队伍了`)
+            return Result.error(MessageConstant.PREFIX+ErrorConstant.HAVE_TEAM)
         }
         let teamList = this.teamListFile.get("teamList")
         teamList = teamList.map((team:Team)=>{
@@ -92,7 +93,7 @@ export class Team {
     static removeTeamMember(teamId:number,memberXuid:string):Result{
         //判断是否在队伍内
         const memberTeamId = this.getTeamIdByPlayerXuid(memberXuid).data.teamId
-        if(memberTeamId == -1 || memberTeamId != teamId) return Result.error(`${MessageConstant.PREFIX}该玩家不在这个队伍中`)
+        if(memberTeamId == -1 || memberTeamId != teamId) return Result.error(MessageConstant.PREFIX+ErrorConstant.NOT_IN_THIS_TEAM)
         //删除操作
         let teamList = this.teamListFile.get("teamList")
         teamList = teamList.map((team:Team)=>{
@@ -126,9 +127,9 @@ export class Team {
         }
 
         //禁止转让自己
-        if(teamInfo.teamId == teamId && transferPlayerXuid == team.masterXuid) return Result.error(`${MessageConstant.PREFIX}无法转让自己`)
+        if(teamInfo.teamId == teamId && transferPlayerXuid == team.masterXuid) return Result.error(MessageConstant.PREFIX+ErrorConstant.CANT_TRANSFER_SELF)
         //禁止转让其他队伍
-        if(teamInfo.teamId != -1 && teamInfo.teamId != teamId) return Result.error(`${MessageConstant.PREFIX}该玩家是其他队伍队长`)
+        if(teamInfo.teamId != -1 && teamInfo.teamId != teamId) return Result.error(MessageConstant.PREFIX+ErrorConstant.IS_OTHER_CAPTAIN)
 
        //转让给队员
         team.masterXuid = transferPlayerXuid
@@ -168,7 +169,7 @@ export class Team {
         for(const team of teamList){
             if(team.id == teamId) return Result.success(team)
         }
-        return Result.error(`${MessageConstant.PREFIX}该队伍不存在`)
+        return Result.error(MessageConstant.PREFIX+ErrorConstant.TEAM_DONT_EXIST)
     }
 
     /**
@@ -211,7 +212,7 @@ export class Team {
                 if(memberXuid == xuid) Result.success()
             }
         }
-        return Result.error(`${MessageConstant.PREFIX}该玩家不存在队伍`)
+        return Result.error(MessageConstant.PREFIX+ErrorConstant.DONT_HAVE_TEAM)
     }
 
     /**
