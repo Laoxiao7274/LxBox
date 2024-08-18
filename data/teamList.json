@@ -1,3 +1,10 @@
 {
-    "teamList": []
+    "teamList": [
+        {
+            "id": 0,
+            "name": "test",
+            "masterXuid": "2535407769993076",
+            "member": []
+        }
+    ]
 }

@@ -49,6 +49,7 @@
 ~~~
 
 ### 删除队伍
+> <span style="color:red">注：并未判断是否为队伍主人等权限仅判断是否存在队伍</span>
 ~~~ts
     ll.imports("LB_TEAM", "removeTeam")
 ~~~
@@ -80,6 +81,7 @@
     data: {}
 }
 ~~~
+
 
 ### 转让队伍
 ~~~ts
@@ -308,7 +310,7 @@
 
 ### 根据玩家xuid获取teamid
 ~~~ts
-    ll.imports("LB_TEAM", "haveTeam")
+    ll.imports("LB_TEAM", "getTeamIdByPlayerXuid")
 ~~~
 - 返回函数: 
 ~~~ts

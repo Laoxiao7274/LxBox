@@ -13,16 +13,22 @@ ll.registerPlugin(
 var Conf = new JsonConfigFile("./plugins/LxBox/config.json");
 var teamListFile = new JsonConfigFile("./plugins/LxBox/data/teamList.json");
 teamListFile.init("teamList", []);
+Conf.init("teamChatPrefix", "\u00A7e\u00A7l[ \u00A73\u00A7l\u961F\u5185 \u00A7e\u00A7l]\u00A7r\u00A7l");
 mc.listen("onServerStarted", function () {
     logger.info("LxBox加载中...");
     //可选依赖
     PluginCheck_1.PluginCheck.check();
     //指令注册
     Command_1.LxCommand.create();
+    //队内聊天监听
+    Team_1.Team.chatListen();
     //API导出
     exportAPI();
     logger.info("LxBox加载成功!");
 });
+/**
+ * 全部API导出
+ */
 function exportAPI() {
     Team_1.Team.export();
 }
