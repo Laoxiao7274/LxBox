@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Command_1 = require("./modules/service/Command");
 var PluginCheck_1 = require("./modules/PluginCheck/PluginCheck");
 var Team_1 = require("./modules/pojo/entity/Team");
+var Protect_1 = require("./modules/service/Protect");
 ll.registerPlugin(
 /* name */ "LxBox", 
 /* introduction */ "一款基于LSE的空岛核心", 
@@ -24,6 +25,10 @@ mc.listen("onServerStarted", function () {
     Team_1.Team.chatListen();
     //API导出
     exportAPI();
+    //Protect权限监听
+    Protect_1.Protect.perListen();
+    //test
+    //Protect.export()
     logger.info("LxBox加载成功!");
 });
 /**

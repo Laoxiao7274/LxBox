@@ -67,6 +67,10 @@ var Team = /** @class */ (function () {
      * @returns Result对象
      */
     Team.addTeamMember = function (teamId, memberXuid) {
+        if (Team.getTeamById(teamId).result) {
+            //队伍不存在
+            return Result_1.Result.error(MessageConstant_1.MessageConstant.PREFIX + ErrorConstant_1.ErrorConstant.TEAM_DONT_EXIST);
+        }
         if (Team.haveTeam(memberXuid).result) {
             //拥有队伍
             return Result_1.Result.error(MessageConstant_1.MessageConstant.PREFIX + ErrorConstant_1.ErrorConstant.HAVE_TEAM);

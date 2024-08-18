@@ -4,6 +4,7 @@
 import { LxCommand } from "./modules/service/Command";
 import { PluginCheck } from "./modules/PluginCheck/PluginCheck";
 import { Team } from "./modules/pojo/entity/Team";
+import { Protect } from "./modules/service/Protect";
 
 ll.registerPlugin(
 /* name */ "LxBox", 
@@ -27,6 +28,10 @@ mc.listen("onServerStarted",()=>{
     Team.chatListen()
     //API导出
     exportAPI()
+    //Protect权限监听
+    Protect.perListen()
+    //test
+    //Protect.export()
     logger.info("LxBox加载成功!")
 })
 
