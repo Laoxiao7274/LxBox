@@ -1,8 +1,18 @@
 export class ErrorConstant{
-    static HAVE_TEAM = `你已经拥有队伍了`
-    static NOT_IN_THIS_TEAM = `该玩家不在这个队伍中`
-    static DONT_HAVE_TEAM = `该玩家不存在队伍`
-    static CANT_TRANSFER_SELF = `无法转让自己`
-    static IS_OTHER_CAPTAIN = `该玩家是其他队伍队长`
-    static TEAM_DONT_EXIST = `该队伍不存在`
+    //已经拥有队伍
+    static HAVE_TEAM = `HAVE_TEAM`
+    //不在队伍内
+    static NOT_IN_THIS_TEAM = `NOT_IN_THIS_TEAM`
+    //没有队伍
+    static DONT_HAVE_TEAM = `DONT_HAVE_TEAM`
+    //不能转让自己
+    static CANT_TRANSFER_SELF = `CANT_TRANSFER_SELF`
+    //是其他队长
+    static IS_OTHER_CAPTAIN = `IS_OTHER_CAPTAIN`
+    //队伍不存在
+    static TEAM_DONT_EXIST = `TEAM_DONT_EXIST`
+    //玩家不存在
+    static PLAYER_NOT_EXIST = `PLAYER_NOT_EXIST`
+    //未知错误
+    static UNKNOWN_ERROR = `UNKNOWN_ERROR`
 }

@@ -5,6 +5,7 @@ import { LxCommand } from "./modules/service/Command";
 import { PluginCheck } from "./modules/PluginCheck/PluginCheck";
 import { Team } from "./modules/pojo/entity/Team";
 import { Protect } from "./modules/service/Protect";
+import { Money } from "./modules/service/Money";
 
 ll.registerPlugin(
 /* name */ "LxBox", 
@@ -13,9 +14,11 @@ ll.registerPlugin(
 /* otherInformation */ { "作者": "xiaoziyi", "版本": "测试版本" });
 
 const Conf = new JsonConfigFile("./plugins/LxBox/config.json")
-const teamListFile = new JsonConfigFile("./plugins/LxBox/data/teamList.json")
+const TeamListFile = new JsonConfigFile("./plugins/LxBox/data/teamList.json")
+const MsgFile = new JsonConfigFile("./plugins/LxBox/data/msg.json")
 
-teamListFile.init("teamList",[])
+TeamListFile.init("teamList",[])
+MsgFile.init("msgs",[])
 Conf.init("teamChatPrefix",`§e§l[ §3§l队内 §e§l]§r§l`)
 
 mc.listen("onServerStarted",()=>{
@@ -40,6 +43,7 @@ mc.listen("onServerStarted",()=>{
  */
 function exportAPI(){
     Team.export()
+    Money.export()
 }
 
 
