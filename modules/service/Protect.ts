@@ -17,7 +17,6 @@ export class Protect {
                 const PLACE_CALLBACK = ll.imports("LB_API_PER", "PLACE_CALLBACK")
                 if (!PLACE_CALLBACK(player, block)) return false
             }
-
         })
 
         /**
@@ -172,7 +171,7 @@ export class Protect {
             }
 
             /**
-             * 熔炉,烟熏炉和篝火
+             * 熔炉,烟熏炉和高炉
              */
             if (block.type == "minecraft:furnace" || block.type == "minecraft:smoker" || block.type == "minecraft:blast_furnace") {
                 if (ll.hasExported("LB_API_PER", "FURNACE_CALLBACK")) {
@@ -224,7 +223,6 @@ export class Protect {
                 if (ll.hasExported("LB_API_PER", "ABOUT_REDSTOBE_CALLBACK")) {
                     //判断函数导入
                     const PLACE_CALLBACK = ll.imports("LB_API_PER", "ABOUT_REDSTOBE_CALLBACK")
-                    //TODO:进行红石方块判断
                     if (!PLACE_CALLBACK(player, block)) return false
                 }
             }
@@ -281,7 +279,7 @@ export class Protect {
                 if (ll.hasExported("LB_API_PER", "USE_BUCKET_CALLBACK")) {
                     //判断函数导入
                     const PLACE_CALLBACK = ll.imports("LB_API_PER", "USE_BUCKET_CALLBACK")
-                    if (!PLACE_CALLBACK(player, block)) return false
+                    if (!PLACE_CALLBACK(player, item)) return false
                 }
             }
 
@@ -292,7 +290,7 @@ export class Protect {
                 if (ll.hasExported("LB_API_PER", "USE_DYE_CALLBACK")) {
                     //判断函数导入
                     const PLACE_CALLBACK = ll.imports("LB_API_PER", "USE_DYE_CALLBACK")
-                    if (!PLACE_CALLBACK(player, block)) return false
+                    if (!PLACE_CALLBACK(player, item)) return false
                 }
             }
 
@@ -303,7 +301,7 @@ export class Protect {
                 if (ll.hasExported("LB_API_PER", "USE_EGG_CALLBACK")) {
                     //判断函数导入
                     const PLACE_CALLBACK = ll.imports("LB_API_PER", "USE_EGG_CALLBACK")
-                    if (!PLACE_CALLBACK(player, block)) return false
+                    if (!PLACE_CALLBACK(player, item)) return false
                 }
             }
 
@@ -328,9 +326,9 @@ export class Protect {
          * 物品展示框
          */
         mc.listen("onUseFrameBlock", (player: Player, block: Block) => {
-            if (ll.hasExported("LB_API_PER", "CONTAINER_CALLBACK")) {
+            if (ll.hasExported("LB_API_PER", "FRAMEBLOCK_CALLBACK")) {
                 //判断函数导入
-                const PLACE_CALLBACK = ll.imports("LB_API_PER", "CONTAINER_CALLBACK")
+                const PLACE_CALLBACK = ll.imports("LB_API_PER", "FRAMEBLOCK_CALLBACK")
                 if (!PLACE_CALLBACK(player, block)) return false
             }
         })
@@ -372,9 +370,9 @@ export class Protect {
          * 丢弃物品
          */
         mc.listen("onDropItem", (player: Player, item: Item) => {
-            if (ll.hasExported("LB_API_PER", "DROP_ITEM")) {
+            if (ll.hasExported("LB_API_PER", "DROP_CALLBACK")) {
                 //判断函数导入
-                const PLACE_CALLBACK = ll.imports("LB_API_PER", "DROP_ITEM")
+                const PLACE_CALLBACK = ll.imports("LB_API_PER", "DROP_CALLBACK")
                 if (!PLACE_CALLBACK(player, item)) return false
             }
         })
