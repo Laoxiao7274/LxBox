@@ -6,14 +6,18 @@ var Command_1 = require("./modules/service/Command");
 var PluginCheck_1 = require("./modules/PluginCheck/PluginCheck");
 var Team_1 = require("./modules/pojo/entity/Team");
 var Protect_1 = require("./modules/service/Protect");
+var Money_1 = require("./modules/service/Money");
+var Message_1 = require("./modules/service/Message");
 ll.registerPlugin(
 /* name */ "LxBox", 
 /* introduction */ "一款基于LSE的空岛核心", 
 /* version */ [0, 0, 1], 
 /* otherInformation */ { "作者": "xiaoziyi", "版本": "测试版本" });
 var Conf = new JsonConfigFile("./plugins/LxBox/config.json");
-var teamListFile = new JsonConfigFile("./plugins/LxBox/data/teamList.json");
-teamListFile.init("teamList", []);
+var TeamListFile = new JsonConfigFile("./plugins/LxBox/data/teamList.json");
+var MsgFile = new JsonConfigFile("./plugins/LxBox/data/msg.json");
+TeamListFile.init("teamList", []);
+MsgFile.init("msgs", []);
 Conf.init("teamChatPrefix", "\u00A7e\u00A7l[ \u00A73\u00A7l\u961F\u5185 \u00A7e\u00A7l]\u00A7r\u00A7l");
 mc.listen("onServerStarted", function () {
     logger.info("LxBox加载中...");
@@ -36,4 +40,6 @@ mc.listen("onServerStarted", function () {
  */
 function exportAPI() {
     Team_1.Team.export();
+    Money_1.Money.export();
+    Message_1.Message.export();
 }

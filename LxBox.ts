@@ -6,6 +6,7 @@ import { PluginCheck } from "./modules/PluginCheck/PluginCheck";
 import { Team } from "./modules/pojo/entity/Team";
 import { Protect } from "./modules/service/Protect";
 import { Money } from "./modules/service/Money";
+import { Message } from "./modules/service/Message";
 
 ll.registerPlugin(
 /* name */ "LxBox", 
@@ -44,6 +45,7 @@ mc.listen("onServerStarted",()=>{
 function exportAPI(){
     Team.export()
     Money.export()
+    Message.export()
 }
 
 

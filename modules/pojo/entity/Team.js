@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Team = void 0;
 var ErrorConstant_1 = require("../../Constant/ErrorConstant");
-var MessageConstant_1 = require("../../Constant/MessageConstant");
 var TagConstent_1 = require("../../Constant/TagConstent");
 var IdCreaeteUtils_1 = require("../../Utils/IdCreaeteUtils");
 var Result_1 = require("./Result");
@@ -34,7 +33,7 @@ var Team = /** @class */ (function () {
     Team.createTeam = function (playerXuid, teamName) {
         if (Team.haveTeam(playerXuid).result) {
             //拥有队伍
-            return Result_1.Result.error(MessageConstant_1.MessageConstant.PREFIX + ErrorConstant_1.ErrorConstant.HAVE_TEAM);
+            return Result_1.Result.error(ErrorConstant_1.ErrorConstant.HAVE_TEAM);
         }
         var team = new Team(teamName, playerXuid);
         var teamList = teamListFile.get("teamList");
@@ -56,7 +55,7 @@ var Team = /** @class */ (function () {
             return true;
         });
         if (teamList.length == teamLen)
-            return Result_1.Result.error(MessageConstant_1.MessageConstant.PREFIX + ErrorConstant_1.ErrorConstant.TEAM_DONT_EXIST);
+            return Result_1.Result.error(ErrorConstant_1.ErrorConstant.TEAM_DONT_EXIST);
         teamListFile.set("teamList", teamList);
         return Result_1.Result.success();
     };
@@ -69,11 +68,11 @@ var Team = /** @class */ (function () {
     Team.addTeamMember = function (teamId, memberXuid) {
         if (Team.getTeamById(teamId).result) {
             //队伍不存在
-            return Result_1.Result.error(MessageConstant_1.MessageConstant.PREFIX + ErrorConstant_1.ErrorConstant.TEAM_DONT_EXIST);
+            return Result_1.Result.error(ErrorConstant_1.ErrorConstant.TEAM_DONT_EXIST);
         }
         if (Team.haveTeam(memberXuid).result) {
             //拥有队伍
-            return Result_1.Result.error(MessageConstant_1.MessageConstant.PREFIX + ErrorConstant_1.ErrorConstant.HAVE_TEAM);
+            return Result_1.Result.error(ErrorConstant_1.ErrorConstant.HAVE_TEAM);
         }
         var teamList = teamListFile.get("teamList");
         teamList = teamList.map(function (team) {
@@ -95,7 +94,7 @@ var Team = /** @class */ (function () {
         //判断是否在队伍内
         var memberTeamId = Team.getTeamIdByPlayerXuid(memberXuid).data.teamId;
         if (memberTeamId == -1 || memberTeamId != teamId)
-            return Result_1.Result.error(MessageConstant_1.MessageConstant.PREFIX + ErrorConstant_1.ErrorConstant.NOT_IN_THIS_TEAM);
+            return Result_1.Result.error(ErrorConstant_1.ErrorConstant.NOT_IN_THIS_TEAM);
         //删除操作
         var teamList = teamListFile.get("teamList");
         teamList = teamList.map(function (team) {
@@ -128,10 +127,10 @@ var Team = /** @class */ (function () {
         }
         //禁止转让自己
         if (teamInfo.teamId == teamId && transferPlayerXuid == team.masterXuid)
-            return Result_1.Result.error(MessageConstant_1.MessageConstant.PREFIX + ErrorConstant_1.ErrorConstant.CANT_TRANSFER_SELF);
+            return Result_1.Result.error(ErrorConstant_1.ErrorConstant.CANT_TRANSFER_SELF);
         //禁止转让其他队伍
         if (teamInfo.teamId != -1 && teamInfo.teamId != teamId)
-            return Result_1.Result.error(MessageConstant_1.MessageConstant.PREFIX + ErrorConstant_1.ErrorConstant.IS_OTHER_CAPTAIN);
+            return Result_1.Result.error(ErrorConstant_1.ErrorConstant.IS_OTHER_CAPTAIN);
         //转让给队员
         team.masterXuid = transferPlayerXuid;
         team.member = team.member.filter(function (memberXuid) { return memberXuid !== transferPlayerXuid; });
@@ -173,7 +172,7 @@ var Team = /** @class */ (function () {
             if (team.id == teamId)
                 return Result_1.Result.success(team);
         }
-        return Result_1.Result.error(MessageConstant_1.MessageConstant.PREFIX + ErrorConstant_1.ErrorConstant.TEAM_DONT_EXIST);
+        return Result_1.Result.error(ErrorConstant_1.ErrorConstant.TEAM_DONT_EXIST);
     };
     /**
      * 获取全部队伍信息
@@ -217,7 +216,7 @@ var Team = /** @class */ (function () {
                     Result_1.Result.success();
             }
         }
-        return Result_1.Result.error(MessageConstant_1.MessageConstant.PREFIX + ErrorConstant_1.ErrorConstant.DONT_HAVE_TEAM);
+        return Result_1.Result.error(ErrorConstant_1.ErrorConstant.DONT_HAVE_TEAM);
     };
     /**
      * 聊天监听

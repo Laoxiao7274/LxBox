@@ -4,12 +4,22 @@ exports.ErrorConstant = void 0;
 var ErrorConstant = /** @class */ (function () {
     function ErrorConstant() {
     }
-    ErrorConstant.HAVE_TEAM = "\u4F60\u5DF2\u7ECF\u62E5\u6709\u961F\u4F0D\u4E86";
-    ErrorConstant.NOT_IN_THIS_TEAM = "\u8BE5\u73A9\u5BB6\u4E0D\u5728\u8FD9\u4E2A\u961F\u4F0D\u4E2D";
-    ErrorConstant.DONT_HAVE_TEAM = "\u8BE5\u73A9\u5BB6\u4E0D\u5B58\u5728\u961F\u4F0D";
-    ErrorConstant.CANT_TRANSFER_SELF = "\u65E0\u6CD5\u8F6C\u8BA9\u81EA\u5DF1";
-    ErrorConstant.IS_OTHER_CAPTAIN = "\u8BE5\u73A9\u5BB6\u662F\u5176\u4ED6\u961F\u4F0D\u961F\u957F";
-    ErrorConstant.TEAM_DONT_EXIST = "\u8BE5\u961F\u4F0D\u4E0D\u5B58\u5728";
+    //已经拥有队伍
+    ErrorConstant.HAVE_TEAM = "HAVE_TEAM";
+    //不在队伍内
+    ErrorConstant.NOT_IN_THIS_TEAM = "NOT_IN_THIS_TEAM";
+    //没有队伍
+    ErrorConstant.DONT_HAVE_TEAM = "DONT_HAVE_TEAM";
+    //不能转让自己
+    ErrorConstant.CANT_TRANSFER_SELF = "CANT_TRANSFER_SELF";
+    //是其他队长
+    ErrorConstant.IS_OTHER_CAPTAIN = "IS_OTHER_CAPTAIN";
+    //队伍不存在
+    ErrorConstant.TEAM_DONT_EXIST = "TEAM_DONT_EXIST";
+    //玩家不存在
+    ErrorConstant.PLAYER_NOT_EXIST = "PLAYER_NOT_EXIST";
+    //未知错误
+    ErrorConstant.UNKNOWN_ERROR = "UNKNOWN_ERROR";
     return ErrorConstant;
 }());
 exports.ErrorConstant = ErrorConstant;

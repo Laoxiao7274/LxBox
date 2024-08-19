@@ -1,6 +1,15 @@
 # LxBox
-- 基于LSE的ll空岛插件核心
-## 计划功能
+> 基于LSE的ll空岛插件核心
+
+## 初衷
+ > 1.快速开发空岛插件，开发了LxBox插件核心，该插件核心提供了一些基础功能，如：组队、保护、经济、消息<br>2.使用该框架，能够实现子插件的快速开发，与功能的自选化，使服主能够自定义自己想要的空岛插件<br>3.该框架提供了一套简便API，将一些功能整合起来，也可以成为开发其他插件的工具
+
+## 插件特点
+- [x] 轻量级
+- [x] 子插件加载机制
+- [x] 高度自定义
+
+## 插件功能
 - [x] 实现子插件自动加载
 - [x] 子插件可选依赖
 - [x] 提供组队api
@@ -8,72 +17,17 @@
 - [x] 提供经济api
 - [x] 提供消息api
 - [ ] 提供任务api
+
 ## 子插件计划
 - [ ] 空岛插件(搭配组队及保护)
+- [ ] 海岛插件
+- [ ] 岛屿任务
+- [ ] 岛屿商店
+- [ ] 岛屿等级
+- [ ] 岛屿排行榜
+- [ ] 自定义生物群系
+- [ ] 空岛玩法拓展
+> 目前有两种想法：<br>1.通过自定义物品，更改合成表，各种熔炉...配方,更改流量商人，更改村民出售，通过自定义生物群系，让玩家可以根据群系模拟java空岛中刷新各种生物与资源的机制<br>2.模仿粘液科技
 
-
-## [组队API](docs/TeamAPI.md)
-- [x] 创建队伍
-- [x] 删除队伍(队长)
-- [x] 转让队伍
-- [x] 添加队伍成员
-- [x] 删除队伍成员
-- [x] 查找玩家队伍ID
-- [x] 查找玩家是否存在队伍
-- [x] 队伍内聊天
-- [x] 功能测试脚本
-> 拦截onChat发送消息事件，获取发送的消息转发给在线的队伍成员<br>提供队伍聊天前缀：<br>支持自定义前缀<br>触发时机： 提供api通过玩家tag的形式
-
-##  [保护API](docs/ProtectAPI.md)
-- [x] 监听事件,权限细分
-> 1.监听所需的所有事件<br>2.事件中进行权限细分(如:place放置事件分为存储容器，工作台等)<br>3.事件拦截：通过ll.imports导入函数来导入是否拦截<br>示例：ll.exports(function():boolean,"LB_API","PLACE_CALLBACK")//用来导出函数返回一个bool值，来进行放置的拦截<br>4.LBAPI需要做到的是：ll.imports导入后，判断该函数是否存在，存在则进行拦截判断，不存在则不判断
-- [x] 权限列表 ：
-
-| 权限描述 | 导出回调函数 | 
-| ------- | ---------- |
-| 放置权限 | PLACE_CALLBACK |
-| 破坏权限 | BREAK_CALLBACK |
-| 方块交互 | INTERACTION_CALLBACK |
-| 容器 | CONTAINER_CALLBACK |
-| 铁砧交互 | ANVIL_CALLBACK |
-| 按钮交互 | BUTTON_CALLBACK |
-| 床交互 | BED_CALLBACK |
-| 门和陷阱门 | DOOR_CALLBACK |
-| 信标 | BEACON_CALLBACK |
-| 酿造台 | BREW_CALLBACK |
-| 桶 | BARREL_CALLBACK |
-| 蜂箱 | BEEGIVE_CALLBACK |
-| 蜜蜂巢 | BEE_NEST_CALLBACK |
-| 堆肥桶 | COMPOST_BUCKET_CALLBACK |
-| 熔炉烟熏炉和篝火 | FURNACE_CALLBACK |
-| 附魔台 | ENCHATMENT_TABLE_CALLBACK |
-| 唱片机和音符盒 | RECORD_CALLBACK |
-| 工作台 | WORKBENCH_CALLBACK |
-| 拉杆 | LEVER_CALLBACK |
-| 与红石相关的方块 | ABOUT_REDSTOBE_CALLBACK |
-| 龙蛋 | DRAGON_EGG_CALLBACK |
-| 物品框 | ITEMBOX_CALLBACK |
-| 采摘浆果 | PICK_BARRIES_CALLBACK |
-| 吃蛋糕 | EAT_CAKE |
-| 动物繁殖 | REPRODUCE_CALLBACK |
-| 使用桶 | USE_BUCKET_CALLBACK |
-| 使用染料 | USE_DYE_CALLBACK |
-| 使用蛋 | USE_EGG_CALLBACK |
-| 交通工具，包括船，矿车和可骑乘的动物，如马等。 | TRANSPORTATION_CALLBACK |
-| ~~村民交易~~ | ~~VILLAGER_TRADE_CALLBACK~~ |
-| 拾取物品 | PICK_CALLBACK |
-| 丢弃物品 | DROP_ITEM |
-| 火蔓延 | FIRE_CALLBACK |
-| 伤害或打击怪物或动物 | ATTACK_CALLBACK |
-|TNT 或其他爆炸保护|TNT_CALLBACK|
-
-##  [经济API](docs/EconomyAPI.md)
-- [x] 获取经济
-- [x] 设置经济
-- [x] 添加经济
-- [x] 扣除经济
-
-##  [消息API](docs/MessageAPI.md)
-- [x] 在线消息发送
-- [x] 离线消息转存
-- [x] 离线消息发送
+## 加入我们
+> 如果你有更好的想法或者有任何的疑问，可以加群给我们提供反馈, 欢迎加入我们的QQ群：226386806
