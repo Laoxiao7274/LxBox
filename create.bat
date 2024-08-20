@@ -1,1 +1,1 @@
-tsc LxBox.ts
+tsc LxBox.ts --outDir ../bds/plugins/LxBox
