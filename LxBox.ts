@@ -7,6 +7,7 @@ import { Team } from "./modules/pojo/entity/Team";
 import { Protect } from "./modules/service/Protect";
 import { Money } from "./modules/service/Money";
 import { Message } from "./modules/service/Message";
+import { Structure } from "./modules/service/Structure";
 
 ll.registerPlugin(
 /* name */ "LxBox", 
@@ -17,9 +18,11 @@ ll.registerPlugin(
 const Conf = new JsonConfigFile("./plugins/LxBox/config.json")
 const TeamListFile = new JsonConfigFile("./plugins/LxBox/data/teamList.json")
 const MsgFile = new JsonConfigFile("./plugins/LxBox/data/msg.json")
+const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
 
 TeamListFile.init("teamList",[])
 MsgFile.init("msgs",[])
+StructureFile.init("structures",[])
 Conf.init("teamChatPrefix",`§e§l[ §3§l队内 §e§l]§r§l`)
 
 mc.listen("onServerStarted",()=>{
@@ -36,6 +39,8 @@ mc.listen("onServerStarted",()=>{
     Protect.perListen()
     //test
     //Protect.export()
+    //Structure结构文件检测
+    Structure.checkStructureFile()
     logger.info("LxBox加载成功!")
 })
 
@@ -46,6 +51,7 @@ function exportAPI(){
     Team.export()
     Money.export()
     Message.export()
+    Structure.export()
 }
 
 

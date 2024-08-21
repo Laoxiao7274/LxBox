@@ -15,4 +15,10 @@ export class ErrorConstant{
     static PLAYER_NOT_EXIST = `PLAYER_NOT_EXIST`
     //未知错误
     static UNKNOWN_ERROR = `UNKNOWN_ERROR`
+    //结构模板加载失败
+    static STRUCTURE_TEMPLATE_LOAD_FAILED = `STRUCTURE_TEMPLATE_LOAD_FAILED`
+    //结构模板已存在
+    static STRUCTURE_TEMPLATE_EXIST = `STRUCTURE_TEMPLATE_EXIST`
+    //结构模板不存在
+    static STRUCTURE_TEMPLATE_NOT_EXIST = `STRUCTURE_TEMPLATE_NOT_EXIST`
 }
