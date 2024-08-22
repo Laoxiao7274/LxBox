@@ -2,6 +2,7 @@
 /// <reference path="d:\BDS_api/dts/helperlib/src/index.d.ts"/> 
 
 import { MessageConstant } from "../Constant/MessageConstant";
+import { Structure } from "./Structure";
 
 export class LxCommand{
     /**
@@ -13,11 +14,14 @@ export class LxCommand{
         cmd.setEnum("team",["team"]);
         cmd.setEnum("structure",["structure"])
         cmd.setEnum("init",["init"])
+        cmd.setEnum("form",["form"])
         cmd.mandatory("action",ParamType.Enum,"team")
         cmd.mandatory("action",ParamType.Enum,"structure")
         cmd.mandatory("structure",ParamType.Enum,"init")
+        cmd.mandatory("structure",ParamType.Enum,"form")
         cmd.overload([])
         cmd.overload(["team"])
+        cmd.overload(["structure","form"])
         cmd.overload(["structure","init"])
         cmd.setCallback((cmd:Command,ori:CommandOrigin,out:CommandOutput,res:any)=>{
             if(ori.player == undefined){
@@ -29,7 +33,17 @@ export class LxCommand{
                 case "team":
                     break;
                 case "structure":
-                    
+                    switch(res.structure){
+                        case "init":
+                            if(player.hasTag(`initModule`)){
+                                const result = Structure.createModule(player.getExtraData("StructureName"),player.blockPos)
+                                result.result?player.tell(MessageConstant.PREFIX+`结构模板创建成功`):logger.warn(result.msg)
+                            }
+                            break
+                        case "form":
+                            Structure.Form(player)
+                            break
+                    }
                     break;
                 default:
                     player.tell(MessageConstant.PREFIX+"请输入正确的命令!")
