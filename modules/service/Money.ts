@@ -96,10 +96,10 @@ export class Money {
      * 函数导出
      */
     static export() {
-        ll.exports(Money.getMoney, "LB_MONEY", "getMoney")?1:logger.warn(`getMoney函数导出失败`)
-        ll.exports(Money.addMoney, "LB_MONEY", "addMoney")?1:logger.warn(`addMoney函数导出失败`)
-        ll.exports(Money.reduceMoney, "LB_MONEY", "reduceMoney")?1:logger.warn(`reduceMoney函数导出失败`)
-        ll.exports(Money.setMoney, "LB_MONEY", "setMoney")?1:logger.warn(`setMoney函数导出失败`)
+        ll.exports(Money.getMoney, "LB_MONEY", "getMoney")?1:logger.error(`getMoney函数导出失败`)
+        ll.exports(Money.addMoney, "LB_MONEY", "addMoney")?1:logger.error(`addMoney函数导出失败`)
+        ll.exports(Money.reduceMoney, "LB_MONEY", "reduceMoney")?1:logger.error(`reduceMoney函数导出失败`)
+        ll.exports(Money.setMoney, "LB_MONEY", "setMoney")?1:logger.error(`setMoney函数导出失败`)
     }
 
 }

@@ -70,9 +70,9 @@ export class Message {
      * API导出
      */
     static export() {
-        ll.exports(Message.addOffMessage, "LB_MESSAGE", "addOffMessage")
-        ll.exports(Message.sendOffMessage, "LB_MESSAGE", "sendOffMessage")
-        ll.exports(Message.msgSendTo, "LB_MESSAGE", "msgSendTo")
+        ll.exports(Message.addOffMessage, "LB_MESSAGE", "addOffMessage")?1:logger.error(`addOffMessage函数导出失败`)
+        ll.exports(Message.sendOffMessage, "LB_MESSAGE", "sendOffMessage")?1:logger.error(`sendOffMessage函数导出失败`)
+        ll.exports(Message.msgSendTo, "LB_MESSAGE", "msgSendTo")?1:logger.error(`msgSendTo函数导出失败`)
      }
 
 }

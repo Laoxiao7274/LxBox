@@ -268,18 +268,18 @@ export class Team {
     static export(){
         let result:boolean
         //函数导出
-        ll.exports(Team.createTeam, "LB_TEAM", "createTeam")?1:logger.warn(`createTeam函数导出失败`)
-        ll.exports(Team.removeTeam,"LB_TEAM","removeTeam")?1:logger.warn(`removeTeam函数导出失败`)
-        ll.exports(Team.addTeamMember, "LB_TEAM", "addTeamMember")?1:logger.warn(`addTeamMember函数导出失败`)
-        ll.exports(Team.removeTeamMember,"LB_TEAM","removeTeamMember")?1:logger.warn(`removeTeamMember函数导出失败`)
-        ll.exports(Team.getAllTeam, "LB_TEAM","getAllTeam")?1:logger.warn(`getAllTeam函数导出失败`)
-        ll.exports(Team.getTeamById, "LB_TEAM","getTeamById")?1:logger.warn(`getTeamById函数导出失败`)
-        ll.exports(Team.transferTeam, "LB_TEAM","transferTeam")?1:logger.warn(`transferTeam函数导出失败`)
-        ll.exports(Team.updateTeam,"LB_TEAM","updateTeam")?1:logger.warn(`updateTeam函数导出失败`)
-        ll.exports(Team.haveTeam, "LB_TEAM", "haveTeam")?1:logger.warn(`havaTeam函数导出失败`)
-        ll.exports(Team.getTeamIdByPlayerXuid, "LB_TEAM", "getTeamIdByPlayerXuid")?1:logger.warn(`getTeamIdByPlayerXuid函数导出失败`)
-        ll.exports(Team.openTeamChat, "LB_TEAM", "openTeamChat")?1:logger.warn(`openTeamChat函数导出失败`)
-        ll.exports(Team.closeTeamChat, "LB_TEAM", "closeTeamChat")?1:logger.warn(`closeTeamChat函数导出失败`)
+        ll.exports(Team.createTeam, "LB_TEAM", "createTeam")?1:logger.error(`createTeam函数导出失败`)
+        ll.exports(Team.removeTeam,"LB_TEAM","removeTeam")?1:logger.error(`removeTeam函数导出失败`)
+        ll.exports(Team.addTeamMember, "LB_TEAM", "addTeamMember")?1:logger.error(`addTeamMember函数导出失败`)
+        ll.exports(Team.removeTeamMember,"LB_TEAM","removeTeamMember")?1:logger.error(`removeTeamMember函数导出失败`)
+        ll.exports(Team.getAllTeam, "LB_TEAM","getAllTeam")?1:logger.error(`getAllTeam函数导出失败`)
+        ll.exports(Team.getTeamById, "LB_TEAM","getTeamById")?1:logger.error(`getTeamById函数导出失败`)
+        ll.exports(Team.transferTeam, "LB_TEAM","transferTeam")?1:logger.error(`transferTeam函数导出失败`)
+        ll.exports(Team.updateTeam,"LB_TEAM","updateTeam")?1:logger.error(`updateTeam函数导出失败`)
+        ll.exports(Team.haveTeam, "LB_TEAM", "haveTeam")?1:logger.error(`havaTeam函数导出失败`)
+        ll.exports(Team.getTeamIdByPlayerXuid, "LB_TEAM", "getTeamIdByPlayerXuid")?1:logger.error(`getTeamIdByPlayerXuid函数导出失败`)
+        ll.exports(Team.openTeamChat, "LB_TEAM", "openTeamChat")?1:logger.error(`openTeamChat函数导出失败`)
+        ll.exports(Team.closeTeamChat, "LB_TEAM", "closeTeamChat")?1:logger.error(`closeTeamChat函数导出失败`)
     }
 
 }
