@@ -109,7 +109,7 @@ export class Structure {
         const files: Array<string> = File.getFilesList("./plugins/LxBox/Structure/")
         files.forEach((file: string) => {
             if (structuresName.includes(".mcstructure"))
-                structuresName.push(file.split(".mcstructure")[0])
+                structuresName.push(file)
         })
         return structuresName
     }
