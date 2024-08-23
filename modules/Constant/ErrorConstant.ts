@@ -21,4 +21,10 @@ export class ErrorConstant{
     static STRUCTURE_TEMPLATE_EXIST = `STRUCTURE_TEMPLATE_EXIST`
     //结构模板不存在
     static STRUCTURE_TEMPLATE_NOT_EXIST = `STRUCTURE_TEMPLATE_NOT_EXIST`
+    //dimid不相同
+    static POS_DIMID_NOT_SAME = `POS_DIMID_NOT_SAME`
+    //超出区块限制
+    static BLOCK_SUM_TOO_LARGE = `BLOCK_SUM_TOO_LARGE`
+    //假人创建失败
+    static CREATE_PLAYER_FAILED = `CREATE_PLAYER_FAILED`
 }

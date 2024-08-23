@@ -8,6 +8,7 @@ import { Protect } from "./modules/service/Protect";
 import { Money } from "./modules/service/Money";
 import { Message } from "./modules/service/Message";
 import { Structure } from "./modules/service/Structure";
+import { Unit } from "./modules/service/Unit";
 
 ll.registerPlugin(
 /* name */ "LxBox", 
@@ -52,6 +53,7 @@ function exportAPI(){
     Money.export()
     Message.export()
     Structure.export()
+    Unit.export()
 }
 
 

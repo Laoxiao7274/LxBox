@@ -28,3 +28,7 @@ mc.listen("onJoin",(player)=>{
 
 
 
+const test = ll.imports("LB_UNIT","test")
+const pos1 = new IntPos(-30,-40,-30,0)
+const pos2 = new IntPos(0,256,0,0)
+unitDelete(pos1,pos2)
