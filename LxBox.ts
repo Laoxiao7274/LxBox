@@ -25,6 +25,8 @@ TeamListFile.init("teamList",[])
 MsgFile.init("msgs",[])
 StructureFile.init("structures",[])
 Conf.init("teamChatPrefix",`§e§l[ §3§l队内 §e§l]§r§l`)
+Conf.init("MoneyType","LLMoney")
+Conf.init("ScoreName","money")
 
 mc.listen("onServerStarted",()=>{
     logger.info("LxBox加载中...")
