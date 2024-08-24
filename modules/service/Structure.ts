@@ -6,8 +6,8 @@ import { MessageConstant } from "../Constant/MessageConstant"
 import { Result } from "../pojo/entity/Result"
 import { SkewPos } from "../pojo/entity/SkewPos"
 
-//结构模板数据文件
-const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
+// //结构模板数据文件
+// const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
 
 
 export class Structure {
@@ -65,6 +65,7 @@ export class Structure {
      * @param player 玩家对象
      */
     static deleteForm(player:Player){
+        const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
         const Structures:Array<Structure> = StructureFile.get("structures")
         if(Structures.length == 0) return player.tell(MessageConstant.PREFIX+"没有结构模板")
         const structuresName = Structures.map(ele => {return ele.StructureName})
@@ -119,6 +120,7 @@ export class Structure {
      * @param StructureName 结构模板名称
      */
     static getStructureByName(StructureName:string):Result<Structure>{
+        const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
         const structures: Array<Structure> = StructureFile.get("structures")
         for(const structure of structures){
             if(structure.StructureName == StructureName) return Result.success(structure)
@@ -149,6 +151,7 @@ export class Structure {
      * 获取未初始化的模板名称
      */
     static getDisableStructure(): Array<string> {
+        const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
         const UsableStructures = StructureFile.get("structures")
         const StructuresName = File.getFilesList("./plugins/LxBox/Structure/")
         return StructuresName.filter((file: string) => {
@@ -168,6 +171,7 @@ export class Structure {
      * @returns Result对象
      */
     static createModule(StructureName: string,pos:IntPos):Result{
+        const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
         //判断是否存在
         const structures = StructureFile.get("structures")
         for(const structure of structures){
@@ -189,6 +193,7 @@ export class Structure {
      * @param StructureName 模板名称
      */
     static deleteModule(StructureName: string):Result{
+        const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
         let structures = StructureFile.get("structures")
         const length = structures.length
         structures = structures.filter((structure: Structure) => {
@@ -205,6 +210,7 @@ export class Structure {
      * @returns 
      */
     static isHaveModule(StructureName:string):boolean{
+        const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
         const structures = StructureFile.get("structures")
         for(const structure of structures){
             if(structure.StructureName == StructureName) return true

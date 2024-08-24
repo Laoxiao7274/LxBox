@@ -28,7 +28,9 @@ mc.listen("onJoin",(player)=>{
 
 
 
-const test = ll.imports("LB_UNIT","test")
-const pos1 = new IntPos(-30,-40,-30,0)
-const pos2 = new IntPos(0,256,0,0)
-unitDelete(pos1,pos2)
+const create = ll.imports("LB_ISLAND","create")
+const player = mc.getPlayer("Laoxiao1261")
+create("sky.mcstructure",0,player,`${player.name}的空岛`)
+
+tickingarea add -15 -15 -15 15 15 15
+fill -15 -15 -15 15 15 15 air

@@ -4,7 +4,7 @@
 import { ErrorConstant } from "../Constant/ErrorConstant"
 import { Result } from "../pojo/entity/Result"
 
-const MsgFile = new JsonConfigFile("./plugins/LxBox/data/msg.json")
+// const MsgFile = new JsonConfigFile("./plugins/LxBox/data/msg.json")
 
 export class Message {
 
@@ -42,6 +42,7 @@ export class Message {
      * @param PlayerXuid 玩家XUID
      */
     static sendOffMessage(PlayerXuid: string): Result<number> {
+        const MsgFile = new JsonConfigFile("./plugins/LxBox/data/msg.json")
         let msgCount = 0
         const player = mc.getPlayer(PlayerXuid)
         if (player == null) return Result.error(ErrorConstant.PLAYER_NOT_EXIST)
@@ -61,6 +62,7 @@ export class Message {
      * @param Message 消息对象
      */
     static addOffMessage(Message: Message) {
+        const MsgFile = new JsonConfigFile("./plugins/LxBox/data/msg.json")
         let msgs: Array<Message> = MsgFile.get("msgs")
         msgs.push(Message)
         MsgFile.set("msgs", msgs)

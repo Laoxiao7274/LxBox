@@ -1,7 +1,12 @@
 // LiteLoader-AIDS automatic generated
 /// <reference path="d:\BDS_api/dts/helperlib/src/index.d.ts"/> 
 
+import { ErrorConstant } from "../modules/Constant/ErrorConstant";
 import { MessageConstant } from "../modules/Constant/MessageConstant";
+import { Result } from "../modules/pojo/entity/Result";
+import { Team } from "../modules/pojo/entity/Team";
+import { Structure } from "../modules/service/Structure";
+import { Unit } from "../modules/service/Unit";
 
 /**
  * 空岛子插件
@@ -27,27 +32,28 @@ const dataFile = new JsonConfigFile("./plugins/LxBox/data/landData.json")
 
 export class IsLand{
 
+
     /**
      * 实体属性
      */
 
-    //岛屿id
+    //岛屿id(对应teamId)
     id:number
-    //队伍ID
-    teamId:number
     //岛屿名称
     name:string
     //岛屿中心坐标
     pos:IntPos
     //岛屿半径
     range:number
+    //普通权限
+    permission:string[]
 
-    constructor(id:number,teamId:number,name:string,pos:IntPos,range:number){
+    constructor(id:number,name:string,pos:IntPos,range:number,permission:string[]){
         this.id = id
-        this.teamId = teamId
         this.name = name
         this.pos = pos
         this.range = range
+        this.permission = permission
     }
 
     static main(){
@@ -67,11 +73,13 @@ export class IsLand{
      */
     static initConf(){
         const dataFile1 = new JsonConfigFile("./plugins/LxBox/data/landData.json")
-        Conf.set("island",{
+        Conf.init("island",{
             //岛屿间距
             "Land_Range": 1000,
             //岛屿大小
-            "Init_Land_Range": 200
+            "Init_Land_Range": 200,
+            //岛屿高度
+            "Land_Height": 64
         })
 
         dataFile.init("lands",[])
@@ -93,13 +101,120 @@ export class IsLand{
         cmd.setup()
     }
 
+    /**
+     * 创建岛屿
+     * @param moduleName 模板名称
+     * @param dimid 维度id
+     * @param player 玩家对象
+     * @param LandName 岛屿名称
+     */
+    static async create(moduleName:string,dimid:number,player:Player,LandName:string):Promise<Result<IsLand>>{
+        //检测模板是否存在
+        if(!Structure.isHaveModule(moduleName)) return Result.error(ErrorConstant.STRUCTURE_TEMPLATE_NOT_EXIST)
 
 
+        const LandConf = Conf.get("island")
+        let x = 0, z = 0;
+        const step = LandConf["Land_Range"]
+        let direction = "right";
+        let i = 0
+        while (i != 5) {
+            i++;
+            //根据方向添加step
+            if (direction == "right") {
+                x += step;
+            }
+            else if (direction == "left") {
+                x -= step;
+            }
+            else if (direction == "up") {
+                z += step;
+            }
+            else if (direction == "down") {
+                z -= step;
+            }
+            //判断目前位置是否存在岛屿
+            const height = LandConf["Land_Height"]
+            const landPos = new IntPos(x, height, z, dimid)
+            log(`x:${x} z:${z}`)
+            if(IsLand.checkLandByPos(landPos) == undefined){
+                //创建岛屿
+                //检测玩家是否存在岛屿
+                if(Team.haveTeam(player.xuid).data) return Result.error(ErrorConstant.HAVE_TEAM)
+                //删除该部分区块
+                const leftDownPos = new IntPos(landPos.x - step,-64,landPos.z - step,dimid)
+                const reightUpPos = new IntPos(landPos.x + step,256,landPos.z + step,dimid)
+                await Unit.delete(leftDownPos,reightUpPos)
+                const spawnResult = Structure.spawnModule(moduleName,landPos)
+                if(!spawnResult.result) return spawnResult.data
+                //数据构建
+                //创建岛屿同时创建队伍
+                const teamResult = Team.createTeam(player.xuid,LandName)
+                if(!teamResult.result) return teamResult.data
+                const team:Team = teamResult.data
+                //岛屿数据构建
+                const NewLandData = new IsLand(team.id,LandName,landPos,LandConf["Init_Land_Range"],[])
+                const lands = dataFile.get("lands")
+                lands.push(NewLandData)
+                dataFile.set("lands",lands)
+                player.teleport(landPos)
+                player.setTitle(MessageConstant.PREFIX+"岛屿创建成功!")
+                return Result.success(NewLandData)
+            }
+
+
+            //根据位置与坐标改变方向
+            if (direction == "right") {
+                if (x > z) {
+                    direction = "down";
+                }
+                else if (x <= z) {
+                    direction = "right";
+                }
+            }
+            else if (direction == "down") {
+                if (x == -z) {
+                    direction = "left";
+                }
+                else if (x > z) {
+                    direction = "down";
+                }
+            }
+            else if (direction == "left") {
+                if (x == z) {
+                    direction = "up";
+                }
+                else if (x < -z) {
+                    direction = "left";
+                }
+            }
+            else if (direction == "up") {
+                if (-x == z) {
+                    direction = "right";
+                }
+                else if (x < z) {
+                    direction = "up";
+                }
+            }
+        }
+        return Result.error(ErrorConstant.UNKNOWN_ERROR)
+    }
+
+    /**
+     * 查找该坐标是否存在岛屿
+     * @param pos 岛屿中心坐标(只用管x,z,dimid)
+     * @returns 
+     */
+    static checkLandByPos(pos:IntPos):IsLand|undefined{
+        return dataFile.get("lands").find((land:IsLand)=>{
+            return (pos.x == land.pos.x && pos.z == land.pos.z && pos.dimid == land.pos.dimid)
+        })
+    }
 
     /**
      * 函数导出
      */
     static export(){
-
+        ll.exports(IsLand.create,"LB_ISLAND","create")
     }
 }

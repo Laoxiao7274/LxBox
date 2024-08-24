@@ -11,24 +11,24 @@ import { Structure } from "./modules/service/Structure";
 import { Unit } from "./modules/service/Unit";
 
 ll.registerPlugin(
-/* name */ "LxBox", 
-/* introduction */ "一款基于LSE的空岛核心", 
-/* version */ [0, 0, 1], 
+/* name */ "LxBox",
+/* introduction */ "一款基于LSE的空岛核心",
+/* version */[0, 0, 1],
 /* otherInformation */ { "作者": "xiaoziyi", "版本": "测试版本" });
 
-const Conf = new JsonConfigFile("./plugins/LxBox/config.json")
-const TeamListFile = new JsonConfigFile("./plugins/LxBox/data/teamList.json")
-const MsgFile = new JsonConfigFile("./plugins/LxBox/data/msg.json")
-const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
+mc.listen("onServerStarted", () => {
+    const Conf = new JsonConfigFile("./plugins/LxBox/config.json")
+    const TeamListFile = new JsonConfigFile("./plugins/LxBox/data/teamList.json")
+    const MsgFile = new JsonConfigFile("./plugins/LxBox/data/msg.json")
+    const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
 
-TeamListFile.init("teamList",[])
-MsgFile.init("msgs",[])
-StructureFile.init("structures",[])
-Conf.init("teamChatPrefix",`§e§l[ §3§l队内 §e§l]§r§l`)
-Conf.init("MoneyType","LLMoney")
-Conf.init("ScoreName","money")
+    TeamListFile.init("teamList", [])
+    MsgFile.init("msgs", [])
+    StructureFile.init("structures", [])
+    Conf.init("teamChatPrefix", `§e§l[ §3§l队内 §e§l]§r§l`)
+    Conf.init("MoneyType", "LLMoney")
+    Conf.init("ScoreName", "money")
 
-mc.listen("onServerStarted",()=>{
     logger.info("LxBox加载中...")
     //可选依赖
     PluginCheck.check()
@@ -50,7 +50,7 @@ mc.listen("onServerStarted",()=>{
 /**
  * 全部API导出
  */
-function exportAPI(){
+function exportAPI() {
     Team.export()
     Money.export()
     Message.export()
