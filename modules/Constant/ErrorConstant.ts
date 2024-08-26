@@ -29,4 +29,8 @@ export class ErrorConstant{
     static CREATE_PLAYER_FAILED = `CREATE_PLAYER_FAILED`
     //未知模板
     static UNKNOWN_TEMPLATE = `UNKNOWN_TEMPLATE`
+    //未知队伍
+    static UNKNOWN_TEAM = `UNKNOWN_TEAM`
+    //未知岛屿
+    static UNKNOWN_LAND = `UNKNOWN_LAND`
 }

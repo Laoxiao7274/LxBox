@@ -23,6 +23,7 @@ import { Unit } from "../modules/service/Unit";
  * 1.创建岛屿
  * 2.删除岛屿
  * 3.转让岛屿(权限写完后)
+ * 4.OP表单(可以选择删除岛屿区块)
  * 
  * 接下来整合
  */
@@ -101,6 +102,8 @@ export class IsLand{
             switch(res.action){
                 case "create":
                     IsLand.CreateLandForm(player)
+                    break
+                case "delete":
                     break
                 default:
                     IsLand.LandForm(player)
@@ -241,6 +244,26 @@ export class IsLand{
     }
 
     /**
+     * 岛屿删除表单
+     * @param player 玩家对象
+     */
+    static deleteForm(player:Player){
+        //检测是否拥有岛屿
+        if(!Team.haveTeam(player.xuid).result) return player.tell(`${MessageConstant.PREFIX}你没有岛屿可以删除`)
+        //获取岛屿和队伍信息
+        const teamId = Team.getTeamIdByPlayerXuid(player.xuid).data
+        if(!teamId.result) return logger.error(ErrorConstant.UNKNOWN_TEAM)
+        const team:Team = Team.getTeamById(teamId).data
+        const islandResult = IsLand.getById(teamId)
+        if(!islandResult.result) return logger.error(islandResult.msg)
+        const island = islandResult.data
+        player.sendModalForm("删除岛屿",`是否删除岛屿${team.name}\n将会清除岛屿的全部数据\n删除后无法恢复!`,"确认","取消",(player:Player,res:boolean|null)=>{
+            if(!res) return
+            //开始删除岛屿
+        })
+    }
+
+    /**
      * 查找该坐标是否存在岛屿
      * @param pos 岛屿中心坐标(只用管x,z,dimid)
      * @returns 
@@ -249,6 +272,18 @@ export class IsLand{
         return dataFile.get("lands").find((land:IsLand)=>{
             return (pos.x == land.pos.x && pos.z == land.pos.z && pos.dimid == land.pos.dimid)
         })
+    }
+
+    /**
+     * 根据id获取岛屿
+     * @param id 岛屿id(队伍id)
+     */
+    static getById(id:number):Result<IsLand>{
+        const lands = dataFile.get("lands")
+        for(const land of lands){
+            if(land.id == id) return Result.success(land)
+        }
+        return Result.error(ErrorConstant.UNKNOWN_LAND)
     }
 
     /**
