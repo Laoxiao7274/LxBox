@@ -91,14 +91,55 @@ export class IsLand{
     static regCmd(){
         const cmd = mc.newCommand("island","空岛插件",PermType.Any)
         cmd.setAlias("is")
+        cmd.setEnum("create",["create"])
+        cmd.mandatory("action",ParamType.Enum,"create")
+        cmd.overload(["create"])
         cmd.overload([])
         cmd.setCallback((_cmd,ori,out,res)=>{
+            if(ori.player == undefined) return logger.warn(`${MessageConstant.PREFIX}非玩家执行is命令`)
+            const player = ori.player
             switch(res.action){
+                case "create":
+                    IsLand.CreateLandForm(player)
+                    break
                 default:
+                    IsLand.LandForm(player)
                     break
             }
         })
         cmd.setup()
+    }
+
+    /**
+     * 岛屿界面
+     * @param player 玩家对象
+     */
+    static LandForm(player:Player){
+        //检测玩家是否存在岛屿
+        if(Team.haveTeam(player.xuid).result){
+            player.tell("你已经拥有岛屿了")
+        }
+        else{
+            IsLand.CreateLandForm(player)
+        }
+    }
+
+    /**
+     * 岛屿创建表单
+     * @param player 玩家对象
+     */
+    static CreateLandForm(player:Player){
+        if(Team.haveTeam(player.xuid).result) return player.tell(`${MessageConstant.PREFIX}你已经拥有岛屿了`)
+        const structures = Structure.getEnableStructure()
+        if(structures.length == 0)return player.tell(`${MessageConstant.PREFIX}没有可用的模板`)
+        const form = mc.newCustomForm()
+        form.setTitle("创建岛屿")
+        form.addDropdown("请选择模板",structures,0)
+        form.addInput("岛屿名称","请输入岛屿名称",`${player.name}的岛屿`)
+        player.sendForm(form,(player,data)=>{
+            if(data == undefined) return
+            IsLand.create(Structure.getStructureNameByName(structures[data[0]]),/*TODO: 之后进行多维度空岛 */0,player,data[1])
+        })
     }
 
     /**
@@ -108,10 +149,11 @@ export class IsLand{
      * @param player 玩家对象
      * @param LandName 岛屿名称
      */
-    static async create(moduleName:string,dimid:number,player:Player,LandName:string):Promise<Result<IsLand>>{
+    static create(moduleName:string,dimid:number,player:Player,LandName:string):Result<IsLand>{
         //检测模板是否存在
         if(!Structure.isHaveModule(moduleName)) return Result.error(ErrorConstant.STRUCTURE_TEMPLATE_NOT_EXIST)
-
+        //检测玩家是否存在岛屿
+        if(Team.haveTeam(player.xuid).result) return Result.error(ErrorConstant.HAVE_TEAM)
 
         const LandConf = Conf.get("island")
         let x = 0, z = 0;
@@ -139,12 +181,10 @@ export class IsLand{
             log(`x:${x} z:${z}`)
             if(IsLand.checkLandByPos(landPos) == undefined){
                 //创建岛屿
-                //检测玩家是否存在岛屿
-                if(Team.haveTeam(player.xuid).data) return Result.error(ErrorConstant.HAVE_TEAM)
-                //删除该部分区块
-                const leftDownPos = new IntPos(landPos.x - step,-64,landPos.z - step,dimid)
-                const reightUpPos = new IntPos(landPos.x + step,256,landPos.z + step,dimid)
-                await Unit.delete(leftDownPos,reightUpPos)
+                // //删除该部分区块
+                // const leftDownPos = new IntPos(landPos.x - step,-64,landPos.z - step,dimid)
+                // const reightUpPos = new IntPos(landPos.x + step,256,landPos.z + step,dimid)
+                // await Unit.delete(leftDownPos,reightUpPos)
                 const spawnResult = Structure.spawnModule(moduleName,landPos)
                 if(!spawnResult.result) return spawnResult.data
                 //数据构建

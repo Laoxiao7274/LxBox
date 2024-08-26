@@ -12,11 +12,12 @@ import { SkewPos } from "../pojo/entity/SkewPos"
 
 export class Structure {
 
-
+    name: string
     StructureName: string
     SkewPos: SkewPos
 
-    constructor(StructureName: string, SkewPos: SkewPos) {
+    constructor(name:string,StructureName: string, SkewPos: SkewPos) {
+        this.name = name
         this.StructureName = StructureName
         this.SkewPos = SkewPos
     }
@@ -53,9 +54,12 @@ export class Structure {
         const form = mc.newCustomForm()
         form.setTitle("结构模板初始化")
         form.addDropdown("请选择要初始化的结构模板",DisableStructure,0)
+        form.addInput("自定义模板名称","请输入自定义模板名称",`${player.name}的模板`)
         player.sendForm(form,(player,data)=>{
             if(data == undefined) return
-            const result = Structure.initModule(DisableStructure[data[0]],player)
+            //检测自定义模板名你是否重复
+            if(Structure.checkName(data[1])) return player.tell(`${MessageConstant.PREFIX}自定义模板名称重复`)
+            const result = Structure.initModule(data[1],DisableStructure[data[0]],player)
             result.result? player.tell(`${MessageConstant.PREFIX}请输入/lb structure init 来确认脚下位置为模板中心`):logger.error(result.msg)
         })
     }
@@ -116,6 +120,15 @@ export class Structure {
     }
 
     /**
+     * 获取所有初始化的结构模板自定义名称
+     */
+    static getEnableStructure():Array<string>{
+        const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
+        const structures: Array<Structure> = StructureFile.get("structures")
+        return structures.map(ele => {return ele.name})
+    }
+
+    /**
      * 根据模板名称获取结构模板
      * @param StructureName 结构模板名称
      */
@@ -134,7 +147,7 @@ export class Structure {
      * @param player 初始化模板的玩家
      * @returns Result对象
      */
-    static initModule(StructureName: string, player: Player): Result {
+    static initModule(name:string,StructureName: string, player: Player): Result {
         /*
             1.在0，0，0位置生成模板结构
             2.将玩家传送至0，0，0
@@ -143,8 +156,38 @@ export class Structure {
         if (!mc.runcmdEx(`structure load ${StructureName.split(`.mcstructure`)[0]} 0 0 0`).success) return Result.error(ErrorConstant.STRUCTURE_TEMPLATE_LOAD_FAILED)
         player.teleport(0, 0, 0, 0)
         player.addTag("initModule")
-        player.setExtraData("StructureName", StructureName)
+        player.setExtraData("StructureData", {
+            StructureName: StructureName,
+            name: name
+        })
         return Result.success()
+    }
+
+    /**
+     * 根据自定义名称获取结构模板名称
+     * @param name 自定义模板名称名称
+     */
+    static getStructureNameByName(name:string):string{
+        const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
+        const Structures: Array<Structure> = StructureFile.get("structures")
+        for(const structure of Structures){
+            if(structure.name == name) return structure.StructureName
+        }
+        logger.error(ErrorConstant.UNKNOWN_TEMPLATE)
+        return ""
+    }
+
+    /**
+     * 检测自定义名称是否存在
+     * @param name 自定义模板名称名称
+     */
+    static checkName(name:string):boolean{
+        const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
+        const Structures: Array<Structure> = StructureFile.get("structures")
+        for(const structure of Structures){
+            if(structure.name == name) return true
+        }
+        return false
     }
 
     /**
@@ -166,11 +209,12 @@ export class Structure {
 
     /**
      * 创建结构模板
+     * @param name 自定义模板名称名称
      * @param StructureName 结构模板名称
      * @param pos 模板中心点
      * @returns Result对象
      */
-    static createModule(StructureName: string,pos:IntPos):Result{
+    static createModule(name:string,StructureName: string,pos:IntPos):Result{
         const StructureFile = new JsonConfigFile("./plugins/LxBox/data/structure.json")
         //判断是否存在
         const structures = StructureFile.get("structures")
@@ -180,10 +224,7 @@ export class Structure {
         //计算偏移Pos
         const skewpos: SkewPos = new SkewPos(pos.x, pos.y, pos.z)
         //存储数据
-        structures.push({
-            StructureName: StructureName,
-            SkewPos: skewpos
-        })
+        structures.push(new Structure(name,StructureName,skewpos))
         StructureFile.set("structures", structures)
         return Result.success()
     }

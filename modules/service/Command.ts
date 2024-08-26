@@ -36,10 +36,10 @@ export class LxCommand{
                     switch(res.structure){
                         case "init":
                             if(player.hasTag(`initModule`)){
-                                const result = Structure.createModule(player.getExtraData("StructureName"),player.blockPos)
+                                const result = Structure.createModule(player.getExtraData("StructureData").name,player.getExtraData("StructureData").StructureName,player.blockPos)
                                 result.result?player.tell(MessageConstant.PREFIX+`结构模板创建成功`):logger.error(result.msg)
                                 player.removeTag(`initModule`)
-                                player.delExtraData(`StructureName`)
+                                player.delExtraData(`StructureData`)
                             }
                             break
                         case "form":

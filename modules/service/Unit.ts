@@ -107,7 +107,7 @@ export class Unit {
                 sum++
                 if(sum >= 1){
                     Unit.promiseArr.push(new Promise(resolve => {
-                        mc.spawnSimulatedPlayer("LB_TEST_PLAYER",new IntPos(pos1.x,0,pos1.z,pos1.dimid))
+                        //mc.spawnSimulatedPlayer("LB_TEST_PLAYER",new IntPos(pos1.x,0,pos1.z,pos1.dimid))
                         const ud = setInterval(()=>{
                             const result = mc.runcmdEx(`fill ${pos1.x} ${pos1.y} ${pos1.z} ${pos2.x} ${pos2.y} ${pos2.z} air`)
                             log(`正在删除p1:${pos1},p2:${pos2}`)
@@ -119,8 +119,6 @@ export class Unit {
                             log(result.output+`\n${result.success}`)
                             if(result.success || result.output.includes("0 blocks filled")) {
                                 if(ud != null) clearInterval(ud)
-                                //假人删除
-                                mc.getPlayer("LB_TEST_PLAYER") == null?1:mc.getPlayer("LB_TEST_PLAYER").simulateDisconnect()
                                 resolve(Result.success())
                             }
                         },0.5)
@@ -134,8 +132,6 @@ export class Unit {
                 log(result.output+`\n${result.success}`)
                 if(result.success || result.output.includes("0 blocks filled")) {
                     if(uid != null) clearInterval(uid)
-                    //假人删除
-                    mc.getPlayer("LB_TEST_PLAYER") == null?1:mc.getPlayer("LB_TEST_PLAYER").simulateDisconnect()
                     resolve(Result.success())
                 }
             },0.5)

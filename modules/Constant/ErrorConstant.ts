@@ -27,4 +27,6 @@ export class ErrorConstant{
     static BLOCK_SUM_TOO_LARGE = `BLOCK_SUM_TOO_LARGE`
     //假人创建失败
     static CREATE_PLAYER_FAILED = `CREATE_PLAYER_FAILED`
+    //未知模板
+    static UNKNOWN_TEMPLATE = `UNKNOWN_TEMPLATE`
 }
