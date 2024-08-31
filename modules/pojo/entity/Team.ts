@@ -79,7 +79,7 @@ export class Team {
      */
     static addTeamMember(teamId: number, memberXuid: string): Result {
         const teamListFile = new JsonConfigFile("./plugins/LxBox/data/teamList.json")
-        if (Team.getTeamById(teamId).result) {
+        if (!Team.getTeamById(teamId).result) {
             //队伍不存在
             return Result.error(ErrorConstant.TEAM_DONT_EXIST)
         }
